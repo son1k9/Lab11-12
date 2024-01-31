@@ -1,0 +1,15 @@
+﻿<Window x:Class="Lab11_12.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab11_12"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="200" Width="400" WindowStartupLocation="CenterScreen">
+    <Grid Background="#352F44">
+        <StackPanel Background="#352F44" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <Button x:Name="Countries" Width="110" Height="60" Foreground="#5C5470" HorizontalAlignment="Center" Margin="20" Content="Страны" Background="#FAF0E6" FontSize="20" Click="Countries_Click"></Button>
+            <Button x:Name="Roles" Width="110" Height="60" Foreground="#5C5470" HorizontalAlignment="Center" Margin="20" Content="Города" Background="#FAF0E6" FontSize="20" Click="Roles_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

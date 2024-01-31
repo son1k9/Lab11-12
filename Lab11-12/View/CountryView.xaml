@@ -1,0 +1,25 @@
+﻿<Window x:Class="Lab11_12.View.CountryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab11_12.View"
+        mc:Ignorable="d"
+        Title="Страны" Height="200" Width="300" WindowStartupLocation="CenterOwner">
+    <StackPanel Background="#352F44">
+        <ListView x:Name="lvCountries" Background="#FAF0E6" Foreground="#5C5470" Margin="10" BorderBrush="#5C5470">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource CustomHeaderStyle}">
+                    <GridView.Columns>
+                        <GridViewColumn Header="ID" Width="50"
+                                        DisplayMemberBinding="{Binding CountryId}"/>
+                        <GridViewColumn Header="Страна"
+                                        DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Код"
+                                        DisplayMemberBinding="{Binding Code}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</Window>
