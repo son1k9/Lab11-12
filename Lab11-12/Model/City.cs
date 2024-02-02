@@ -1,10 +1,4 @@
-﻿using Lab11_12.View;
-using Lab11_12.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lab11_12.ViewModel;
 
 namespace Lab11_12.Model
 {
@@ -13,10 +7,10 @@ namespace Lab11_12.Model
         public int CityId { get; set; }
         public string Name { get; set; }
 
-        public int CountryId {  get; set; }
+        public int CountryId { get; set; }
 
-        public City(int id, string name, int countryId) 
-        { 
+        public City(int id, string name, int countryId)
+        {
             CityId = id;
             Name = name;
             CountryId = countryId;

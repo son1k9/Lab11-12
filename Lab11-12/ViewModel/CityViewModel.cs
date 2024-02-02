@@ -1,10 +1,5 @@
 ﻿using Lab11_12.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lab11_12.ViewModel
 {
@@ -12,7 +7,7 @@ namespace Lab11_12.ViewModel
     {
         public ObservableCollection<City> Cities { get; set; } = new ObservableCollection<City>();
 
-        public CityViewModel() 
+        public CityViewModel()
         {
             Cities.Add(new City(1, "Владимир", 1));
             Cities.Add(new City(2, "Лондон", 2));
@@ -23,7 +18,7 @@ namespace Lab11_12.ViewModel
         public int MaxId()
         {
             int id = 0;
-            foreach (City city in Cities) 
+            foreach (City city in Cities)
             {
                 if (city.CityId > id)
                 {

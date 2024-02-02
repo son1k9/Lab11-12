@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lab11_12.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Lab11_12.ViewModel;
 
 namespace Lab11_12.View
 {
@@ -29,10 +17,12 @@ namespace Lab11_12.View
             lvCountries.ItemsSource = _countryViewModel.Countries;
         }
 
-        public CountryView(Window window):this()
+        public CountryView(Window window) : this()
         {
             Owner = window;
         }
+
+         
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -49,7 +39,7 @@ namespace Lab11_12.View
             };
             newCountryWindow.DataContext = country;
 
-            if(newCountryWindow.ShowDialog() == true)
+            if (newCountryWindow.ShowDialog() == true)
                 _countryViewModel.Countries.Add(country);
         }
 
@@ -89,7 +79,7 @@ namespace Lab11_12.View
             }
 
             var result = MessageBox.Show($"Удалить данные по стране {country.Name}", "Предупреждение", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes) 
+            if (result == MessageBoxResult.Yes)
                 _countryViewModel.Countries.Remove(country);
         }
     }

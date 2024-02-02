@@ -1,20 +1,7 @@
-﻿using Lab11_12.ViewModel;
-using System;
-using System.Collections.Generic;
+﻿using Lab11_12.Model;
+using Lab11_12.ViewModel;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Lab11_12.Model;
-using System.Diagnostics.Metrics;
 
 namespace Lab11_12.View
 {
@@ -34,7 +21,7 @@ namespace Lab11_12.View
 
             countries = _countryViewModel.Countries.ToList();
 
-            foreach (City city in _cityViewModel.Cities) 
+            foreach (City city in _cityViewModel.Cities)
             {
                 Country country = countries.Find(x => x.CountryId == city.CountryId);
                 _citiesWithCountries.Add(new CityCountry(city.CityId, city.Name, country.Name));
@@ -43,7 +30,7 @@ namespace Lab11_12.View
             lvCities.ItemsSource = _citiesWithCountries;
         }
 
-        public CityView(Window window):this()
+        public CityView(Window window) : this()
         {
             Owner = window;
         }
@@ -65,9 +52,15 @@ namespace Lab11_12.View
             newCountryWindow.DataContext = cityCountry;
             newCountryWindow.cbCity.ItemsSource = countries;
 
-            if (newCountryWindow.ShowDialog() == true) 
+            if (newCountryWindow.ShowDialog() == true)
             {
                 Country country = (Country)newCountryWindow.cbCity.SelectedValue;
+                if (country == null)
+                {
+                    MessageBox.Show("Страна не была указана", "Ошибка", MessageBoxButton.OK);
+                    return;
+                }
+                
                 cityCountry.Country = country.Name;
                 _citiesWithCountries.Add(cityCountry);
                 _cityViewModel.Cities.Add(new City(cityCountry));
@@ -122,7 +115,7 @@ namespace Lab11_12.View
             if (result == MessageBoxResult.Yes)
             {
                 _citiesWithCountries.Remove(cityCountry);
-                City city = _cityViewModel.Cities.ToList().Find(c=>c.CityId == cityCountry.Id);
+                City city = _cityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
                 _cityViewModel.Cities.Remove(city);
             }
         }
