@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lab11_12.View;
+using Lab11_12.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +15,28 @@ namespace Lab11_12.Model
 
         public int CountryId {  get; set; }
 
-        public City(int id, string name, int countyId) 
+        public City(int id, string name, int countryId) 
         { 
             CityId = id;
             Name = name;
-            CountryId = countyId;
+            CountryId = countryId;
+        }
+
+        public City(City city)
+        {
+            CityId = city.CityId;
+            Name = city.Name;
+            CountryId = city.CountryId;
+        }
+
+        public City(CityCountry cityCountry)
+        {
+            CountryViewModel vmCountry = new CountryViewModel();
+            int id = vmCountry.Countries.ToList().Find(country => country.Name == cityCountry.Country).CountryId;
+
+            CityId = cityCountry.Id;
+            Name = cityCountry.Name;
+            CountryId = id;
         }
     }
 }

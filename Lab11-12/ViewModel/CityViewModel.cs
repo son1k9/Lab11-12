@@ -19,5 +19,18 @@ namespace Lab11_12.ViewModel
             Cities.Add(new City(3, "Сидней", 3));
             Cities.Add(new City(4, "Москва", 1));
         }
+
+        public int MaxId()
+        {
+            int id = 0;
+            foreach (City city in Cities) 
+            {
+                if (city.CityId > id)
+                {
+                    id = city.CityId;
+                }
+            }
+            return id;
+        }
     }
 }

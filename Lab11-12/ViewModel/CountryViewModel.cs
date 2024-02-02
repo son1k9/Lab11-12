@@ -18,5 +18,19 @@ namespace Lab11_12.ViewModel
             Countries.Add(new Country(2, "Великобритания", "UK"));
             Countries.Add(new Country(3, "Австралия", "AU"));
         }
+
+        public int MaxId()
+        {
+            int id = 0;
+            foreach (Country country in Countries)
+            {
+                if (country.CountryId > id)
+                {
+                    id = country.CountryId;
+                }
+            }
+            return id;
+        }
     }
+
 }
