@@ -25,8 +25,7 @@ namespace Lab11_12.Model
 
         public City(CityCountry cityCountry)
         {
-            CountryViewModel vmCountry = new CountryViewModel();
-            int id = vmCountry.Countries.ToList().Find(country => country.Name == cityCountry.Country).CountryId;
+            int id = CountryViewModel.Countries.ToList().Find(country => country.Name == cityCountry.Country).CountryId;
 
             CityId = cityCountry.Id;
             Name = cityCountry.Name;

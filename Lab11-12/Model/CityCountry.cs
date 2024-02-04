@@ -1,11 +1,39 @@
-﻿namespace Lab11_12.Model
-{
-    class CityCountry
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+﻿using System.ComponentModel;
 
-        public string Country { get; set; } = string.Empty;
+namespace Lab11_12.Model
+{
+    class CityCountry : INotifyPropertyChanged
+    {
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+        private string _name = string.Empty;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+        private string _country = string.Empty;
+        public string Country
+        {
+            get { return _country; }
+            set
+            {
+                _country = value;
+                OnPropertyChanged(nameof(Country));
+            }
+        }
 
         public CityCountry() { }
 
@@ -21,6 +49,12 @@
             Id = cityCountry.Id;
             Name = cityCountry.Name;
             Country = cityCountry.Country;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -1,10 +1,39 @@
-﻿namespace Lab11_12
+﻿using System.ComponentModel;
+
+namespace Lab11_12
 {
-    class Country
+    class Country : INotifyPropertyChanged
     {
-        public int CountryId { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Code { get; set; } = string.Empty;
+        private int _countryId;
+        public int CountryId
+        {
+            get { return _countryId; }
+            set
+            {
+                _countryId = value;
+                OnPropertyChanged(nameof(CountryId));
+            }
+        }
+        private string _name = string.Empty;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+        private string _code = string.Empty;
+        public string Code
+        {
+            get { return _code; }
+            set
+            {
+                _code = value;
+                OnPropertyChanged(nameof(Code));
+            }
+        }
 
         public Country() { }
 
@@ -13,6 +42,12 @@
             CountryId = id;
             Name = name;
             Code = code;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public Country Copy()

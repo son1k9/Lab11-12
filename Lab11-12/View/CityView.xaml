@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab11_12.View"
+        xmlns:viewmodel="clr-namespace:Lab11_12.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:CityViewModel}"
         mc:Ignorable="d"
         Title="Города" MinHeight="200" MinWidth="300" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
     <StackPanel Background="#352F44">
@@ -18,14 +20,15 @@
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <Button Content="Добавить"  Margin="10, 10, 5, 0" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" 
-                        Background="#FAF0E6" Foreground="#5C5470" Click="ButtonAdd_Click"/>
+                        Background="#FAF0E6" Foreground="#5C5470" Command="{Binding AddCity}"/>
                 <Button Content="Редактировать"  Margin="5, 10, 5, 0" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0"
-                        Background="#FAF0E6" Foreground="#5C5470" Click="ButtonEdit_Click"/>
+                        Background="#FAF0E6" Foreground="#5C5470" Command="{Binding EditCity}"/>
                 <Button Content="Удалить"  Margin="5, 10, 10, 0" HorizontalAlignment="Stretch" Grid.Column="2" Grid.Row="0"
-                        Background="#FAF0E6" Foreground="#5C5470" Click="ButtonDelete_Click"/>
+                        Background="#FAF0E6" Foreground="#5C5470" Command="{Binding DeleteCity}"/>
             </Grid>
         </StackPanel>
-        <ListView x:Name="lvCities" Background="#FAF0E6" Foreground="#5C5470" Margin="10" BorderBrush="#5C5470" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView ItemsSource="{Binding CitiesWithCountries}" SelectedItem="{Binding SelectedCityCountry}"
+                  Background="#FAF0E6" Foreground="#5C5470" Margin="10" BorderBrush="#5C5470" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                     <GridView.Columns>
