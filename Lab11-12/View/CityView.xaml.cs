@@ -11,7 +11,6 @@ namespace Lab11_12.View
     /// </summary>
     public partial class CityView : Window
     {
-        CountryViewModel _countryViewModel = new CountryViewModel();
         CityViewModel _cityViewModel = new CityViewModel();
         ObservableCollection<CityCountry> _citiesWithCountries = new ObservableCollection<CityCountry>();
         List<Country> countries;
