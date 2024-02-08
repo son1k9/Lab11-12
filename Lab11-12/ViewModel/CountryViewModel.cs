@@ -4,14 +4,16 @@ namespace Lab11_12.ViewModel
 {
     class CountryViewModel
     {
-        public ObservableCollection<Country> Countries { get; set; } = new ObservableCollection<Country>();
+        public static ObservableCollection<Country> Countries { get; set; } = new ObservableCollection<Country>();
 
-        public CountryViewModel()
+        static CountryViewModel()
         {
             Countries.Add(new Country(1, "Россия", "RU"));
             Countries.Add(new Country(2, "Великобритания", "UK"));
             Countries.Add(new Country(3, "Австралия", "AU"));
         }
+
+        public CountryViewModel() { }
 
         public int MaxId()
         {

@@ -14,7 +14,7 @@ namespace Lab11_12.View
         {
             InitializeComponent();
 
-            lvCountries.ItemsSource = _countryViewModel.Countries;
+            lvCountries.ItemsSource = CountryViewModel.Countries;
         }
 
         public CountryView(Window window) : this()
@@ -40,7 +40,7 @@ namespace Lab11_12.View
             newCountryWindow.DataContext = country;
 
             if (newCountryWindow.ShowDialog() == true)
-                _countryViewModel.Countries.Add(country);
+                CountryViewModel.Countries.Add(country);
         }
 
         private void ButtonEdit_Click(object sender, RoutedEventArgs e)
@@ -65,7 +65,7 @@ namespace Lab11_12.View
                 country.Name = countryCopy.Name;
                 country.Code = countryCopy.Code;
                 lvCountries.ItemsSource = null;
-                lvCountries.ItemsSource = _countryViewModel.Countries;
+                lvCountries.ItemsSource = CountryViewModel.Countries;
             }
         }
 
@@ -80,7 +80,13 @@ namespace Lab11_12.View
 
             var result = MessageBox.Show($"Удалить данные по стране {country.Name}", "Предупреждение", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
-                _countryViewModel.Countries.Remove(country);
+            {
+                if (CityViewModel.Cities.ToList().Find(x => x.CountryId == country.CountryId) == null)
+                    CountryViewModel.Countries.Remove(country);
+                else
+                    MessageBox.Show("Нельзя удалить эту страну, пока на неё ссылаются города", "Ошибка", MessageBoxButton.OK);
+            }
         }
     }
 }
+    

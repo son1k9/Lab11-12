@@ -1,6 +1,7 @@
 ﻿using Lab11_12.Model;
 using Lab11_12.ViewModel;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Metrics;
 using System.Windows;
 
 namespace Lab11_12.View
@@ -19,9 +20,9 @@ namespace Lab11_12.View
         {
             InitializeComponent();
 
-            countries = _countryViewModel.Countries.ToList();
+            countries = CountryViewModel.Countries.ToList();
 
-            foreach (City city in _cityViewModel.Cities)
+            foreach (City city in CityViewModel.Cities)
             {
                 Country country = countries.Find(x => x.CountryId == city.CountryId);
                 _citiesWithCountries.Add(new CityCountry(city.CityId, city.Name, country.Name));
@@ -63,7 +64,7 @@ namespace Lab11_12.View
                 
                 cityCountry.Country = country.Name;
                 _citiesWithCountries.Add(cityCountry);
-                _cityViewModel.Cities.Add(new City(cityCountry));
+                CityViewModel.Cities.Add(new City(cityCountry));
             }
         }
 
@@ -96,7 +97,7 @@ namespace Lab11_12.View
                 lvCities.ItemsSource = null;
                 lvCities.ItemsSource = _citiesWithCountries;
 
-                City city = _cityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
+                City city = CityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
                 city.Name = cityCountry.Name;
                 city.CountryId = country.CountryId;
             }
@@ -115,8 +116,8 @@ namespace Lab11_12.View
             if (result == MessageBoxResult.Yes)
             {
                 _citiesWithCountries.Remove(cityCountry);
-                City city = _cityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
-                _cityViewModel.Cities.Remove(city);
+                City city = CityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
+                CityViewModel.Cities.Remove(city);
             }
         }
     }
