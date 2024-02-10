@@ -1,15 +1,16 @@
 ﻿using Lab11_12.Model;
 using Lab11_12.View;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.Metrics;
+using System.IO;
 using System.Windows;
 
 namespace Lab11_12.ViewModel;
 
 class CountryViewModel : INotifyPropertyChanged
 {
-    public static ObservableCollection<Country> Countries { get; } = new ObservableCollection<Country>();
+    public static ObservableCollection<Country> Countries { get; private set; } = new ObservableCollection<Country>();
 
     private Country? _selectedCountry;
     public Country? SelectedCountry
@@ -22,12 +23,42 @@ class CountryViewModel : INotifyPropertyChanged
         }
     }
 
+    readonly static private string _path = "..\\..\\..\\ModelData\\Country.json";
+
+    static private void LoadCountries()
+    {
+        try
+        {
+            string jsonCountries = File.ReadAllText(_path);
+            var countries = JsonConvert.DeserializeObject<ObservableCollection<Country>>(jsonCountries);
+            if (countries != null)
+            {
+                Countries = countries;
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+    }
+
+    private static void SaveChanges()
+    {
+        try
+        {
+            string jsonCountries = JsonConvert.SerializeObject(Countries, Formatting.Indented);
+            using StreamWriter file = File.CreateText(_path);
+            file.Write(jsonCountries);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+    }
+
     static CountryViewModel()
     {
-
-        Countries.Add(new Country(1, "Россия", "RU"));
-        Countries.Add(new Country(2, "Великобритания", "UK"));
-        Countries.Add(new Country(3, "Австралия", "AU"));
+        LoadCountries();
     }
 
     public CountryViewModel() { }
@@ -61,6 +92,7 @@ class CountryViewModel : INotifyPropertyChanged
 
             if (newCountryWindow.ShowDialog() == true)
                 Countries.Add(country);
+                SaveChanges();
             });
         }
     }
@@ -87,6 +119,7 @@ class CountryViewModel : INotifyPropertyChanged
                 {
                     country.Name = countryCopy.Name;
                     country.Code = countryCopy.Code;
+                    SaveChanges();
                 }
             }, (obj)=>SelectedCountry!=null);
         }
@@ -105,7 +138,10 @@ class CountryViewModel : INotifyPropertyChanged
                 if (result == MessageBoxResult.Yes)
                 {
                     if (CityViewModel.Cities.ToList().Find(x => x.CountryId == country.CountryId) == null)
+                    {
                         Countries.Remove(country);
+                        SaveChanges();
+                    }
                     else
                         MessageBox.Show("Нельзя удалить эту страну, пока на неё ссылаются города", "Ошибка", MessageBoxButton.OK);
                 }

@@ -9,6 +9,8 @@ class City
 
     public int CountryId { get; set; }
 
+    public City() { }
+
     public City(int id, string name, int countryId)
     {
         CityId = id;
@@ -25,7 +27,10 @@ class City
 
     public City(CityCountry cityCountry)
     {
-        int id = CountryViewModel.Countries.ToList().Find(country => country.Name == cityCountry.Country).CountryId;
+        Country? country = CountryViewModel.Countries.ToList().Find(country => country.Name == cityCountry.Country);
+        int id = 0;
+        if (country != null)
+            id = country.CountryId;
 
         CityId = cityCountry.Id;
         Name = cityCountry.Name;

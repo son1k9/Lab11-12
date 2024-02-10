@@ -1,0 +1,17 @@
+[
+  {
+    "CountryId": 1,
+    "Name": "Россия",
+    "Code": "RU"
+  },
+  {
+    "CountryId": 2,
+    "Name": "Великобритания",
+    "Code": "UK"
+  },
+  {
+    "CountryId": 3,
+    "Name": "Австралия",
+    "Code": "AU"
+  }
+]

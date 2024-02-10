@@ -7,7 +7,8 @@
         xmlns:viewmodel="clr-namespace:Lab11_12.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewmodel:CityViewModel}"
         mc:Ignorable="d"
-        Title="Города" MinHeight="200" MinWidth="300" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
+        Title="Города" MinHeight="200" MinWidth="300" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight"
+        Closing="Window_Closing">
     <StackPanel Background="#352F44">
         <StackPanel Orientation="Horizontal" Width="Auto">
             <Grid>
@@ -19,20 +20,20 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Button Content="Добавить"  Margin="10, 10, 5, 0" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" 
-                        Background="#FAF0E6" Foreground="#5C5470" Command="{Binding AddCity}"/>
-                <Button Content="Редактировать"  Margin="5, 10, 5, 0" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0"
-                        Background="#FAF0E6" Foreground="#5C5470" Command="{Binding EditCity}"/>
-                <Button Content="Удалить"  Margin="5, 10, 10, 0" HorizontalAlignment="Stretch" Grid.Column="2" Grid.Row="0"
-                        Background="#FAF0E6" Foreground="#5C5470" Command="{Binding DeleteCity}"/>
+                <Button Content="Добавить"  Grid.Column="0" Grid.Row="0" 
+                        Style="{StaticResource ButtonMenu}" Command="{Binding AddCity}"/>
+                <Button Content="Редактировать" Grid.Column="1" Grid.Row="0"
+                        Style="{StaticResource ButtonMenu}" Command="{Binding EditCity}"/>
+                <Button Content="Удалить" Grid.Column="2" Grid.Row="0"
+                        Style="{StaticResource ButtonMenu}" Command="{Binding DeleteCity}"/>
             </Grid>
         </StackPanel>
-        <ListView ItemsSource="{Binding CitiesWithCountries}" SelectedItem="{Binding SelectedCityCountry}"
+        <ListView x:Name="lvCity" ItemsSource="{Binding CitiesWithCountries}" SelectedItem="{Binding SelectedCityCountry}"
                   Background="#FAF0E6" Foreground="#5C5470" Margin="10" BorderBrush="#5C5470" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource CustomHeaderStyle}">
                     <GridView.Columns>
-                        <GridViewColumn Header="ID" Width="50"
+                        <GridViewColumn Header="ID"
                                 DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Header="Город"
                                 DisplayMemberBinding="{Binding Name}"/>

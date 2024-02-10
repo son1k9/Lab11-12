@@ -1,14 +1,16 @@
 ﻿using Lab11_12.Model;
 using Lab11_12.View;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 
 namespace Lab11_12.ViewModel;
 
 class CityViewModel : INotifyPropertyChanged
 {
-    public static ObservableCollection<City> Cities { get; } = new ObservableCollection<City>();
+    public static ObservableCollection<City> Cities { get; private set; } = new ObservableCollection<City>();
     private ObservableCollection<CityCountry> _citiesWithCountries;
     public ObservableCollection<CityCountry> CitiesWithCountries
     {
@@ -32,12 +34,43 @@ class CityViewModel : INotifyPropertyChanged
         }
     }
 
+    readonly static private string _path = "..\\..\\..\\ModelData\\City.json";
+
+    static private void LoadCities()
+    {
+        try
+        {
+            string jsonCities = File.ReadAllText(_path);
+            var cities = JsonConvert.DeserializeObject<ObservableCollection<City>>(jsonCities);
+            if (cities != null)
+            {
+                Cities = cities;
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+    }
+
+    private static void SaveChanges()
+    {
+        try
+        {
+            string jsonCities = JsonConvert.SerializeObject(Cities, Formatting.Indented);
+            using StreamWriter file = File.CreateText(_path);
+            file.Write(jsonCities);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+    }
+
+
     static CityViewModel()
     {
-        Cities.Add(new City(1, "Владимир", 1));
-        Cities.Add(new City(2, "Лондон", 2));
-        Cities.Add(new City(3, "Сидней", 3));
-        Cities.Add(new City(4, "Москва", 1));
+        LoadCities();
     }
 
     public CityViewModel() { CitiesWithCountries = GetCountries(); }
@@ -82,6 +115,7 @@ class CityViewModel : INotifyPropertyChanged
                     cityCountry.Country = country.Name;
                     Cities.Add(new City(cityCountry));
                     CitiesWithCountries = GetCountries();
+                    SaveChanges();
                 }
             });
         }
@@ -114,6 +148,7 @@ class CityViewModel : INotifyPropertyChanged
                     city.Name = cityCountryCopy.Name;
                     city.CountryId = country.CountryId;
                     CitiesWithCountries = GetCountries();
+                    SaveChanges();
                 }
             }, (obj) => SelectedCityCountry != null);
         }
@@ -134,6 +169,7 @@ class CityViewModel : INotifyPropertyChanged
                     City city = Cities.ToList().Find(c => c.CityId == cityCountry.Id);
                     Cities.Remove(city);
                     CitiesWithCountries = GetCountries();
+                    SaveChanges();
                 }
             }, (obj) => SelectedCityCountry != null);
         }
@@ -144,11 +180,16 @@ class CityViewModel : INotifyPropertyChanged
         ObservableCollection<CityCountry> cityCountries = new ObservableCollection<CityCountry>();
         foreach (City city in Cities)
         {
+            Country? country = Countries.ToList().Find(x => x.CountryId == city.CountryId);
+            string countryName = string.Empty;
+            if (country != null)
+                countryName = country.Name;
+
             CityCountry cityCountry = new CityCountry()
             {
                 Id = city.CityId,
                 Name = city.Name,
-                Country = Countries.ToList().Find(x=>x.CountryId==city.CountryId).Name
+                Country = countryName
             };
             cityCountries.Add(cityCountry);
         }

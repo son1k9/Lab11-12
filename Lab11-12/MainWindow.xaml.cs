@@ -17,11 +17,25 @@ public partial class MainWindow : Window
     {
         Window window = new CountryView() { Owner = this };
         window.Show();
+        DisableButtons();
     }
 
     private void Roles_Click(object sender, RoutedEventArgs e)
     {
         Window window = new CityView() { Owner = this };
         window.Show();
+        DisableButtons();
+    }
+
+    private void DisableButtons()
+    {
+        Countries.IsEnabled = false;
+        Roles.IsEnabled = false;
+    }
+
+    public void EnableButtons()
+    {
+        Countries.IsEnabled = true;
+        Roles.IsEnabled = true;
     }
 }

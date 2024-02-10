@@ -4,4 +4,10 @@
         <Setter Property="Background" Value="#B9B4C7"/>
         <Setter Property="Foreground" Value="#FAF0E6"/>
     </Style>
+    <Style x:Key="ButtonMenu" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="10, 10, 5, 0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="#FAF0E6"/>
+        <Setter Property="Foreground" Value="#5C5470"/>
+    </Style>
 </ResourceDictionary>
