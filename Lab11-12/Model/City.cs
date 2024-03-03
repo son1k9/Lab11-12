@@ -1,36 +1,39 @@
 ﻿using Lab11_12.ViewModel;
 
-namespace Lab11_12.Model
+namespace Lab11_12.Model;
+
+class City
 {
-    class City
+    public int CityId { get; set; }
+    public string Name { get; set; }
+
+    public int CountryId { get; set; }
+
+    public City() { }
+
+    public City(int id, string name, int countryId)
     {
-        public int CityId { get; set; }
-        public string Name { get; set; }
+        CityId = id;
+        Name = name;
+        CountryId = countryId;
+    }
 
-        public int CountryId { get; set; }
+    public City(City city)
+    {
+        CityId = city.CityId;
+        Name = city.Name;
+        CountryId = city.CountryId;
+    }
 
-        public City(int id, string name, int countryId)
-        {
-            CityId = id;
-            Name = name;
-            CountryId = countryId;
-        }
+    public City(CityCountry cityCountry)
+    {
+        Country? country = CountryViewModel.Countries.ToList().Find(country => country.Name == cityCountry.Country);
+        int id = 0;
+        if (country != null)
+            id = country.CountryId;
 
-        public City(City city)
-        {
-            CityId = city.CityId;
-            Name = city.Name;
-            CountryId = city.CountryId;
-        }
-
-        public City(CityCountry cityCountry)
-        {
-            CountryViewModel vmCountry = new CountryViewModel();
-            int id = CountryViewModel.Countries.ToList().Find(country => country.Name == cityCountry.Country).CountryId;
-
-            CityId = cityCountry.Id;
-            Name = cityCountry.Name;
-            CountryId = id;
-        }
+        CityId = cityCountry.Id;
+        Name = cityCountry.Name;
+        CountryId = id;
     }
 }

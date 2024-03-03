@@ -1,0 +1,22 @@
+[
+  {
+    "CityId": 1,
+    "Name": "Владимир",
+    "CountryId": 1
+  },
+  {
+    "CityId": 2,
+    "Name": "Лондон",
+    "CountryId": 2
+  },
+  {
+    "CityId": 3,
+    "Name": "Сидней",
+    "CountryId": 3
+  },
+  {
+    "CityId": 4,
+    "Name": "Москва",
+    "CountryId": 1
+  }
+]

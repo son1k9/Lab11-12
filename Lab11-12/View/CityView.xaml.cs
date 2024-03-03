@@ -1,123 +1,43 @@
-﻿using Lab11_12.Model;
-using Lab11_12.ViewModel;
-using System.Collections.ObjectModel;
-using System.Diagnostics.Metrics;
+﻿using Lab11_12.ViewModel;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace Lab11_12.View
+namespace Lab11_12.View;
+
+/// <summary>
+/// Interaction logic for CityView.xaml
+/// </summary>
+public partial class CityView : Window
 {
-    /// <summary>
-    /// Interaction logic for CityView.xaml
-    /// </summary>
-    public partial class CityView : Window
+    CityViewModel _cityViewModel = new CityViewModel();
+
+    public CityView()
     {
-        CityViewModel _cityViewModel = new CityViewModel();
-        ObservableCollection<CityCountry> _citiesWithCountries = new ObservableCollection<CityCountry>();
-        List<Country> countries;
+        InitializeComponent();
+        DataContext = _cityViewModel;
+        _cityViewModel.PropertyChanged += AutoSizeGridView;
+    }
 
-        public CityView()
+    private void AutoSizeGridView(object? sender, EventArgs e)
+    {
+        GridView? gridView = lvCity.View as GridView;
+        if (gridView != null)
         {
-            InitializeComponent();
-
-            countries = CountryViewModel.Countries.ToList();
-
-            foreach (City city in CityViewModel.Cities)
+            foreach (var column in gridView.Columns)
             {
-                Country country = countries.Find(x => x.CountryId == city.CountryId);
-                _citiesWithCountries.Add(new CityCountry(city.CityId, city.Name, country.Name));
-            }
-
-            lvCities.ItemsSource = _citiesWithCountries;
-        }
-
-        public CityView(Window window) : this()
-        {
-            Owner = window;
-        }
-
-        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
-        {
-            NewCityWindow newCountryWindow = new NewCityWindow()
-            {
-                Title = "Новый город",
-                Owner = this
-            };
-
-            int id = _cityViewModel.MaxId() + 1;
-            CityCountry cityCountry = new CityCountry()
-            {
-                Id = id
-            };
-
-            newCountryWindow.DataContext = cityCountry;
-            newCountryWindow.cbCity.ItemsSource = countries;
-
-            if (newCountryWindow.ShowDialog() == true)
-            {
-                Country country = (Country)newCountryWindow.cbCity.SelectedValue;
-                if (country == null)
-                {
-                    MessageBox.Show("Страна не была указана", "Ошибка", MessageBoxButton.OK);
-                    return;
-                }
-                
-                cityCountry.Country = country.Name;
-                _citiesWithCountries.Add(cityCountry);
-                CityViewModel.Cities.Add(new City(cityCountry));
+                if (double.IsNaN(column.Width))
+                    column.Width = column.ActualWidth;
+                column.Width = double.NaN;
             }
         }
+    }
 
-        private void ButtonEdit_Click(object sender, RoutedEventArgs e)
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        if (Owner is MainWindow window)
         {
-            CityCountry? cityCountry = lvCities.SelectedValue as CityCountry;
-            if (cityCountry == null)
-            {
-                MessageBox.Show("Необходимо выбрать город для редактирования", "Предупреждение", MessageBoxButton.OK);
-                return;
-            }
-
-
-            NewCityWindow newCountryWindow = new NewCityWindow()
-            {
-                Title = "Редактирование города",
-                Owner = this
-            };
-
-            CityCountry cityCountryCopy = new CityCountry(cityCountry);
-            newCountryWindow.DataContext = cityCountryCopy;
-            newCountryWindow.cbCity.ItemsSource = countries;
-            newCountryWindow.cbCity.Text = cityCountryCopy.Country; //Try with SelectedValue
-
-            if (newCountryWindow.ShowDialog() == true)
-            {
-                Country country = (Country)newCountryWindow.cbCity.SelectedValue;
-                cityCountry.Name = cityCountryCopy.Name;
-                cityCountry.Country = country.Name;
-                lvCities.ItemsSource = null;
-                lvCities.ItemsSource = _citiesWithCountries;
-
-                City city = CityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
-                city.Name = cityCountry.Name;
-                city.CountryId = country.CountryId;
-            }
-        }
-
-        private void ButtonDelete_Click(object sender, RoutedEventArgs e)
-        {
-            CityCountry? cityCountry = lvCities.SelectedItem as CityCountry;
-            if (cityCountry is null)
-            {
-                MessageBox.Show("Необходимо выбрать страну для удаления", "Предупреждение", MessageBoxButton.OK);
-                return;
-            }
-
-            var result = MessageBox.Show($"Удалить данные по городу {cityCountry.Name}", "Предупреждение", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
-            {
-                _citiesWithCountries.Remove(cityCountry);
-                City city = CityViewModel.Cities.ToList().Find(c => c.CityId == cityCountry.Id);
-                CityViewModel.Cities.Remove(city);
-            }
+            window.EnableButtons();
         }
     }
 }

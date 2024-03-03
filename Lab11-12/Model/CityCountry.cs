@@ -1,26 +1,59 @@
-﻿namespace Lab11_12.Model
+﻿using System.ComponentModel;
+
+namespace Lab11_12.Model;
+
+class CityCountry : INotifyPropertyChanged
 {
-    class CityCountry
+    private int _id;
+    public int Id
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-
-        public string Country { get; set; } = string.Empty;
-
-        public CityCountry() { }
-
-        public CityCountry(int id, string name, string country)
+        get { return _id; }
+        set
         {
-            Id = id;
-            Name = name;
-            Country = country;
+            _id = value;
+            OnPropertyChanged(nameof(Id));
         }
-
-        public CityCountry(CityCountry cityCountry)
+    }
+    private string _name = string.Empty;
+    public string Name
+    {
+        get { return _name; }
+        set
         {
-            Id = cityCountry.Id;
-            Name = cityCountry.Name;
-            Country = cityCountry.Country;
+            _name = value;
+            OnPropertyChanged(nameof(Name));
         }
+    }
+    private string _country = string.Empty;
+    public string Country
+    {
+        get { return _country; }
+        set
+        {
+            _country = value;
+            OnPropertyChanged(nameof(Country));
+        }
+    }
+
+    public CityCountry() { }
+
+    public CityCountry(int id, string name, string country)
+    {
+        Id = id;
+        Name = name;
+        Country = country;
+    }
+
+    public CityCountry(CityCountry cityCountry)
+    {
+        Id = cityCountry.Id;
+        Name = cityCountry.Name;
+        Country = cityCountry.Country;
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
