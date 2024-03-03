@@ -7,9 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="200" Width="400" WindowStartupLocation="CenterScreen">
     <Grid Background="#352F44">
-        <StackPanel Background="#352F44" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.3*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="#352F44" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
             <Button x:Name="Countries" Width="110" Height="60" Foreground="#5C5470" HorizontalAlignment="Center" Margin="20" Content="Страны" Background="#FAF0E6" FontSize="20" Click="Countries_Click"></Button>
             <Button x:Name="Roles" Width="110" Height="60" Foreground="#5C5470" HorizontalAlignment="Center" Margin="20" Content="Города" Background="#FAF0E6" FontSize="20" Click="Roles_Click"></Button>
         </StackPanel>
+        <Button Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Height="50" Content="Сформировать PDF" Margin="0 0 15 15" Foreground="#5C5470" Background="#FAF0E6" Click="PDF_Click"/>
+
+
     </Grid>
 </Window>
